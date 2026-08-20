@@ -1,8 +1,8 @@
 {
-  "name": "july-annie-card-generator",
+  "name": "zis-content-card-generator",
   "version": "0.0.0",
   "private": true,
-  "description": "七月安妮公众号内容精简卡片生成器",
+  "description": "zis 紫苏公众号内容精简卡片生成器",
   "license": "MIT",
   "type": "module",
   "scripts": {

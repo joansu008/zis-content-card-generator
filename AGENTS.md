@@ -10,13 +10,13 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 
 ## Durable product decisions
 
-- Brand the app as “zis图文内容卡片生成器” with the compact mark “ZIS / CONTENT CARD”; seed “安妮 / @kiki89699” with `public/annie-avatar.jpg` as the default account while allowing the active exported identity to come from the cloud account library.
-- Use only the user-provided 七月安妮公众号 archive as the content source; do not ship the original TianCe tweet or AI libraries.
+- Brand the app as “zis图文内容卡片生成器” with the compact mark “ZIS / CONTENT CARD”; seed “zis 紫苏 / @zis” with `public/zis-avatar.jpg` as the default account while allowing the active exported identity to come from the cloud account library.
+- Use only the user-provided zis 紫苏公众号 archive as the content source; do not ship the original TianCe tweet or AI libraries.
 - Keep extracted cards editable and label claims that require verification before publication.
 - Export cards in a complete X-post structure with timestamp, view count, and the reply/repost/like/bookmark/share row. Let operators randomize a coherent set of illustrative interaction figures using realistic ratios.
 - Randomize the post date, time, and complete interaction dataset whenever a new source item is selected, when the random-content action is used, and on a fresh page load.
 - Put account switching in the top navigation. Public visitors may switch accounts and use content without signing in; password-protected managers may add, edit, and delete cloud-synced accounts and public/account-specific content.
-- Store structured account/content data in Sites D1 and uploaded account avatars in Sites R2. Seed the original 156 七月安妮 entries as public content available to every account.
+- Store structured account/content data in Sites D1 and uploaded account avatars in Sites R2. Seed the original 156 zis 紫苏 entries as public content available to every account.
 - Keep the shared background library cloud-backed and admin-managed. The random-background preference is device-local, defaults on, and changes the background when content or account selection changes.
 
 - Keep the primary workflow extremely simple: select a tweet, select a publishing style/background, and download a finished image.
@@ -25,7 +25,7 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 - The poster editor must let mouse and touch users drag the tweet card, scale it, and reset it to a centered default.
 - Optimize the controls and copy for matrix-account operators who should not need design or editing experience.
 - Treat a finished post as two deliverables: a downloadable image and a one-line Douyin description with exactly three relevant hashtags that can be copied directly.
-- Let operators switch the exported card identity by uploading an avatar and editing the nickname and account handle; keep a one-click reset to the default 安妮 / @kiki89699 identity.
+- Let operators switch the exported card identity by uploading an avatar and editing the nickname and account handle; keep a one-click reset to the default zis 紫苏 / @zis identity.
 
 - Provide “zis小红书封面生成器” as an independent `/xiaohongshu` entry that shares the existing cloud accounts and background library without changing the original card-generator route.
 - Keep the Xiaohongshu content library separate and empty by default. Managers may add, edit, delete, or import up to 500 CSV/XLSX rows; do not seed it from the existing 156公众号卡片 unless the user later supplies or approves new source material.

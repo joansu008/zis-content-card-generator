@@ -15,8 +15,8 @@ const now = "2026-08-20T00:00:00.000Z";
 
 const statements = [
   "",
-  "-- Initial account and the existing 七月安妮 archive are seeded idempotently.",
-  `INSERT OR IGNORE INTO accounts (id, display_name, handle, avatar_url, created_at, updated_at) VALUES ('annie-default', '安妮', '@kiki89699', '/annie-avatar.jpg', '${now}', '${now}');`,
+  "-- Initial account and the existing zis 紫苏 archive are seeded idempotently.",
+  `INSERT OR IGNORE INTO accounts (id, display_name, handle, avatar_url, created_at, updated_at) VALUES ('zis-default', 'zis 紫苏', '@zis', '/zis-avatar.jpg', '${now}', '${now}');`,
 ];
 
 for (const source of sources) {

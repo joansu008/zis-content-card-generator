@@ -117,10 +117,10 @@ test("emits the files required by Sites packaging", async () => {
 
 function createApiDb(seed = {}) {
   const state = {
-    accounts: seed.accounts || [{ id: "annie-default", display_name: "安妮", handle: "@kiki89699", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" }],
+    accounts: seed.accounts || [{ id: "zis-default", display_name: "zis 紫苏", handle: "@zis", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" }],
     contents: seed.contents || [
       { id: "public-1", owner_account_id: null, category: "公共", title: "公共内容", draft: "公共正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
-      { id: "private-1", owner_account_id: "annie-default", category: "专属", title: "专属内容", draft: "专属正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
+      { id: "private-1", owner_account_id: "zis-default", category: "专属", title: "专属内容", draft: "专属正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
     ],
     xhsContents: seed.xhsContents || [],
     xhsAssets: seed.xhsAssets || [],
@@ -225,7 +225,7 @@ test("public account and content APIs expose shared plus account-owned records",
   assert.equal(accountsPayload.accounts[0].contentCount, 2);
   assert.equal(accountsPayload.sharedContentCount, 1);
 
-  const contentResponse = await worker.fetch(new Request("https://example.test/api/content?accountId=annie-default"), { DB });
+  const contentResponse = await worker.fetch(new Request("https://example.test/api/content?accountId=zis-default"), { DB });
   assert.equal(contentResponse.status, 200);
   const contentPayload = await contentResponse.json();
   assert.deepEqual(contentPayload.content.map((item) => item.scope), ["public", "account"]);
@@ -234,36 +234,36 @@ test("public account and content APIs expose shared plus account-owned records",
 test("xiaohongshu content API exposes only public and selected-account records", async () => {
   const DB = createApiDb({
     accounts: [
-      { id: "annie-default", display_name: "安妮", handle: "@kiki89699", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
-      { id: "second", display_name: "第二账号", handle: "@second", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "zis-default", display_name: "zis 紫苏", handle: "@zis", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "second", display_name: "第二账号", handle: "@second", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
     ],
     xhsContents: [
       { id: "xhs-public", owner_account_id: null, cover_title: "公共封面", note_body: "公共正文" },
-      { id: "xhs-annie", owner_account_id: "annie-default", cover_title: "安妮封面", note_body: "安妮正文" },
+      { id: "xhs-zis", owner_account_id: "zis-default", cover_title: "zis 紫苏封面", note_body: "zis 紫苏正文" },
       { id: "xhs-second", owner_account_id: "second", cover_title: "第二封面", note_body: "第二正文" },
     ],
   });
-  const response = await worker.fetch(new Request("https://example.test/api/xiaohongshu/content?accountId=annie-default"), { DB });
+  const response = await worker.fetch(new Request("https://example.test/api/xiaohongshu/content?accountId=zis-default"), { DB });
   assert.equal(response.status, 200);
   const payload = await response.json();
-  assert.deepEqual(payload.content.map((item) => item.coverTitle), ["公共封面", "安妮封面"]);
+  assert.deepEqual(payload.content.map((item) => item.coverTitle), ["公共封面", "zis 紫苏封面"]);
   assert.deepEqual(payload.content.map((item) => item.scope), ["public", "account"]);
 });
 
 test("xiaohongshu subject assets are isolated to the selected account", async () => {
   const DB = createApiDb({
     accounts: [
-      { id: "annie-default", display_name: "安妮", handle: "@kiki89699", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
-      { id: "second", display_name: "第二账号", handle: "@second", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "zis-default", display_name: "zis 紫苏", handle: "@zis", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "second", display_name: "第二账号", handle: "@second", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
     ],
     xhsAssets: [
-      { id: "subject-annie", account_id: "annie-default", kind: "subject", name: "安妮半身", image_url: "/api/xiaohongshu/asset/annie", storage_key: "xiaohongshu/subjects/annie-default/a.png", display_order: 2, created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "subject-zis", account_id: "zis-default", kind: "subject", name: "zis 紫苏半身", image_url: "/api/xiaohongshu/asset/zis", storage_key: "xiaohongshu/subjects/zis-default/a.png", display_order: 2, created_at: "2026-01-01", updated_at: "2026-01-01" },
       { id: "subject-second", account_id: "second", kind: "subject", name: "第二账号人物", image_url: "/api/xiaohongshu/asset/second", storage_key: "xiaohongshu/subjects/second/b.png", display_order: 1, created_at: "2026-01-01", updated_at: "2026-01-01" },
     ],
   });
-  const response = await worker.fetch(new Request("https://example.test/api/xiaohongshu/assets?accountId=annie-default&kind=subject"), { DB });
+  const response = await worker.fetch(new Request("https://example.test/api/xiaohongshu/assets?accountId=zis-default&kind=subject"), { DB });
   assert.equal(response.status, 200);
-  assert.deepEqual((await response.json()).assets.map((item) => item.name), ["安妮半身"]);
+  assert.deepEqual((await response.json()).assets.map((item) => item.name), ["zis 紫苏半身"]);
 });
 
 test("public background API exposes the shared ordered library", async () => {
@@ -290,7 +290,7 @@ test("anonymous visitors cannot import xiaohongshu materials", async () => {
 });
 
 test("anonymous visitors cannot upload xiaohongshu subject assets", async () => {
-  const form = new FormData(); form.append("accountId", "annie-default"); form.append("name", "人物");
+  const form = new FormData(); form.append("accountId", "zis-default"); form.append("name", "人物");
   form.append("image", new Blob([new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])], { type: "image/png" }), "subject.png");
   const response = await worker.fetch(new Request("https://example.test/api/admin/xiaohongshu/assets", { method: "POST", body: form }), { DB: createApiDb(), SESSION_SECRET: "session-secret" });
   assert.equal(response.status, 401);
@@ -308,7 +308,7 @@ test("admin can batch import validated xiaohongshu materials and duplicates are 
     method: "POST", headers: { "content-type": "application/json", cookie },
     body: JSON.stringify({ items: [
       { ownerAccountId: null, category: "成长", coverTitle: "拿回选择权", noteBody: "先行动，再调整。", keywords: ["成长", "行动"] },
-      { ownerAccountId: "annie-default", category: "创作", coverTitle: "把想法写出来", noteBody: "完成比完美重要。", keywords: ["创作"] },
+      { ownerAccountId: "zis-default", category: "创作", coverTitle: "把想法写出来", noteBody: "完成比完美重要。", keywords: ["创作"] },
     ] }),
   }), env);
   assert.equal(imported.status, 201);
@@ -339,7 +339,7 @@ test("admin login creates a secure session and authorizes account creation", asy
   assert.match(cookie, /SameSite=Strict/);
 
   const create = await worker.fetch(new Request("https://example.test/api/admin/accounts", {
-    method: "POST", headers: { "content-type": "application/json", cookie }, body: JSON.stringify({ displayName: "新账号", handle: "new_account", avatarUrl: "/annie-avatar.jpg" }),
+    method: "POST", headers: { "content-type": "application/json", cookie }, body: JSON.stringify({ displayName: "新账号", handle: "new_account", avatarUrl: "/zis-avatar.jpg" }),
   }), env);
   assert.equal(create.status, 201);
   assert.equal(DB.state.accounts.length, 2);
@@ -365,7 +365,7 @@ test("the final remaining account cannot be deleted", async () => {
   const login = await worker.fetch(new Request("https://example.test/api/admin/login", {
     method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password }),
   }), env);
-  const response = await worker.fetch(new Request("https://example.test/api/admin/accounts/annie-default", {
+  const response = await worker.fetch(new Request("https://example.test/api/admin/accounts/zis-default", {
     method: "DELETE", headers: { cookie: login.headers.get("set-cookie") },
   }), env);
   assert.equal(response.status, 409);
@@ -374,23 +374,23 @@ test("the final remaining account cannot be deleted", async () => {
 test("deleting an account removes only its exclusive content", async () => {
   const DB = createApiDb({
     accounts: [
-      { id: "annie-default", display_name: "安妮", handle: "@kiki89699", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
-      { id: "second", display_name: "第二账号", handle: "@second", avatar_url: "/annie-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "zis-default", display_name: "zis 紫苏", handle: "@zis", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
+      { id: "second", display_name: "第二账号", handle: "@second", avatar_url: "/zis-avatar.jpg", created_at: "2026-01-01", updated_at: "2026-01-01" },
     ],
     contents: [
       { id: "public-1", owner_account_id: null, category: "公共", title: "公共内容", draft: "公共正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
-      { id: "private-1", owner_account_id: "annie-default", category: "专属", title: "专属内容", draft: "专属正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
+      { id: "private-1", owner_account_id: "zis-default", category: "专属", title: "专属内容", draft: "专属正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
       { id: "private-2", owner_account_id: "second", category: "专属", title: "第二账号内容", draft: "专属正文", insight: "摘要", product_fit: "[]", priority: 1, requires_verification: 0 },
     ],
-    xhsAssets: [{ id: "subject-annie", account_id: "annie-default", kind: "subject", name: "安妮", image_url: "/api/xiaohongshu/asset/x", storage_key: "xiaohongshu/subjects/annie-default/a.png", display_order: 1, created_at: "2026-01-01", updated_at: "2026-01-01" }],
+    xhsAssets: [{ id: "subject-zis", account_id: "zis-default", kind: "subject", name: "zis 紫苏", image_url: "/api/xiaohongshu/asset/x", storage_key: "xiaohongshu/subjects/zis-default/a.png", display_order: 1, created_at: "2026-01-01", updated_at: "2026-01-01" }],
   });
-  const AVATARS = createR2(); await AVATARS.put("xiaohongshu/subjects/annie-default/a.png", "bytes");
+  const AVATARS = createR2(); await AVATARS.put("xiaohongshu/subjects/zis-default/a.png", "bytes");
   const password = "admin-password";
   const env = { DB, AVATARS, SESSION_SECRET: "session-secret", ADMIN_PASSWORD_HASH: createHash("sha256").update(password).digest("hex") };
   const login = await worker.fetch(new Request("https://example.test/api/admin/login", {
     method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password }),
   }), env);
-  const response = await worker.fetch(new Request("https://example.test/api/admin/accounts/annie-default", {
+  const response = await worker.fetch(new Request("https://example.test/api/admin/accounts/zis-default", {
     method: "DELETE", headers: { cookie: login.headers.get("set-cookie") },
   }), env);
 
@@ -448,13 +448,13 @@ test("admin can upload, rename, order and delete a validated subject asset", asy
   const env = { DB, AVATARS, SESSION_SECRET: "session-secret", ADMIN_PASSWORD_HASH: createHash("sha256").update(password).digest("hex") };
   const login = await worker.fetch(new Request("https://example.test/api/admin/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password }) }), env);
   const cookie = login.headers.get("set-cookie");
-  const form = new FormData(); form.append("accountId", "annie-default"); form.append("kind", "subject"); form.append("name", "安妮正面半身");
+  const form = new FormData(); form.append("accountId", "zis-default"); form.append("kind", "subject"); form.append("name", "zis 紫苏正面半身");
   form.append("image", new Blob([new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])], { type: "image/png" }), "subject.png");
   const created = await worker.fetch(new Request("https://example.test/api/admin/xiaohongshu/assets", { method: "POST", headers: { cookie }, body: form }), env);
   assert.equal(created.status, 201); assert.equal(DB.state.xhsAssets.length, 1); assert.equal(AVATARS.objects.size, 1);
   const asset = (await created.json()).asset;
-  const updated = await worker.fetch(new Request(`https://example.test/api/admin/xiaohongshu/assets/${asset.id}`, { method: "PUT", headers: { "content-type": "application/json", cookie }, body: JSON.stringify({ name: "安妮讲课半身", displayOrder: 7 }) }), env);
-  assert.equal(updated.status, 200); assert.equal(DB.state.xhsAssets[0].name, "安妮讲课半身"); assert.equal(DB.state.xhsAssets[0].display_order, 7);
+  const updated = await worker.fetch(new Request(`https://example.test/api/admin/xiaohongshu/assets/${asset.id}`, { method: "PUT", headers: { "content-type": "application/json", cookie }, body: JSON.stringify({ name: "zis 紫苏讲课半身", displayOrder: 7 }) }), env);
+  assert.equal(updated.status, 200); assert.equal(DB.state.xhsAssets[0].name, "zis 紫苏讲课半身"); assert.equal(DB.state.xhsAssets[0].display_order, 7);
   const deleted = await worker.fetch(new Request(`https://example.test/api/admin/xiaohongshu/assets/${asset.id}`, { method: "DELETE", headers: { cookie } }), env);
   assert.equal(deleted.status, 200); assert.equal(DB.state.xhsAssets.length, 0); assert.equal(AVATARS.objects.size, 0);
 });
@@ -463,7 +463,7 @@ test("subject uploads reject spoofed image signatures", async () => {
   const DB = createApiDb(); const AVATARS = createR2(); const password = "admin-password";
   const env = { DB, AVATARS, SESSION_SECRET: "session-secret", ADMIN_PASSWORD_HASH: createHash("sha256").update(password).digest("hex") };
   const login = await worker.fetch(new Request("https://example.test/api/admin/login", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ password }) }), env);
-  const form = new FormData(); form.append("accountId", "annie-default"); form.append("name", "伪装图片"); form.append("image", new Blob(["not-a-png"], { type: "image/png" }), "fake.png");
+  const form = new FormData(); form.append("accountId", "zis-default"); form.append("name", "伪装图片"); form.append("image", new Blob(["not-a-png"], { type: "image/png" }), "fake.png");
   const response = await worker.fetch(new Request("https://example.test/api/admin/xiaohongshu/assets", { method: "POST", headers: { cookie: login.headers.get("set-cookie") }, body: form }), env);
   assert.equal(response.status, 400); assert.equal(DB.state.xhsAssets.length, 0); assert.equal(AVATARS.objects.size, 0);
 });

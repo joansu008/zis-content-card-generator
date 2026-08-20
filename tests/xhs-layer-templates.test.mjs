@@ -12,7 +12,7 @@ import {
 } from "../src/xhs-layer-templates.js";
 
 const fields = { category: "成长", coverTitle: "把选择权拿回自己手里", coverSubtitle: "先行动，再调整", excerpt: "摘要", keywords: "行动力、选择、复盘" };
-const account = { displayName: "安妮", handle: "@kiki89699" };
+const account = { displayName: "zis 紫苏", handle: "@zis" };
 
 test("all seven layer templates are independently cloned and six new portrait styles exist", () => {
   assert.equal(XHS_LAYER_TEMPLATE_IDS.size, 7);

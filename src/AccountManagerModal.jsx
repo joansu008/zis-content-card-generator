@@ -10,7 +10,7 @@ async function apiRequest(url, options = {}) {
   return body;
 }
 
-const emptyAccount = { displayName: "", handle: "@", avatarUrl: "/annie-avatar.jpg" };
+const emptyAccount = { displayName: "", handle: "@", avatarUrl: "/zis-avatar.jpg" };
 const emptyContent = {
   title: "", draft: "", insight: "", category: "未分类", ownerAccountId: "",
   productFit: "", requiresVerification: false,
@@ -88,7 +88,7 @@ export function AccountManagerModal({
     event.preventDefault();
     setBusy(true); setError("");
     try {
-      let avatarUrl = accountForm.avatarUrl || "/annie-avatar.jpg";
+      let avatarUrl = accountForm.avatarUrl || "/zis-avatar.jpg";
       if (accountAvatar) {
         const data = new FormData(); data.append("avatar", accountAvatar);
         const uploaded = await apiRequest("/api/admin/avatar", { method: "POST", body: data });

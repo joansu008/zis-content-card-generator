@@ -48,7 +48,7 @@ export default {
         const upstream = await fetch(imageUrl, {
           headers: {
             Accept: "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
-            "User-Agent": "Mozilla/5.0 (compatible; JulyAnnieCard/1.0)",
+            "User-Agent": "Mozilla/5.0 (compatible; ZISCard/1.0)",
             Referer: `${imageUrl.protocol}//${imageUrl.host}/`,
           },
           redirect: "follow",
@@ -562,7 +562,7 @@ async function deleteBackground(url, env) {
 function validateAccount(payload) {
   const displayName = String(payload.displayName || "").trim().slice(0, 20);
   const handleValue = String(payload.handle || "").trim().replace(/^@+/, "").replace(/\s+/g, "").slice(0, 31);
-  const avatarUrl = String(payload.avatarUrl || "/annie-avatar.jpg").trim();
+  const avatarUrl = String(payload.avatarUrl || "/zis-avatar.jpg").trim();
   if (!displayName) throw httpError("请填写昵称。", 400);
   if (!handleValue) throw httpError("请填写账号。", 400);
   if (!/^[\p{L}\p{N}_.-]+$/u.test(handleValue)) throw httpError("账号只能包含文字、数字、下划线、点和短横线。", 400);
@@ -715,7 +715,7 @@ function hasImageSignature(bytes, type) {
 
 async function hasAdminSession(request, env) {
   if (!env.SESSION_SECRET) return false;
-  const token = parseCookies(request.headers.get("cookie") || "").annie_admin;
+  const token = parseCookies(request.headers.get("cookie") || "").zis_admin;
   if (!token) return false;
   const parts = token.split(".");
   if (parts.length !== 3 || Number(parts[0]) <= Math.floor(Date.now() / 1000)) return false;
@@ -727,11 +727,11 @@ async function createSessionCookie(env) {
   const expires = Math.floor(Date.now() / 1000) + SESSION_SECONDS;
   const nonce = crypto.randomUUID();
   const signature = await hmacBase64Url(env.SESSION_SECRET, `${expires}.${nonce}`);
-  return `annie_admin=${expires}.${nonce}.${signature}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${SESSION_SECONDS}`;
+  return `zis_admin=${expires}.${nonce}.${signature}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${SESSION_SECONDS}`;
 }
 
 function clearSessionCookie() {
-  return "annie_admin=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
+  return "zis_admin=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0";
 }
 
 async function hmacBase64Url(secret, value) {

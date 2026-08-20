@@ -17,7 +17,7 @@ import {
 } from "./xhs-layer-templates.js";
 import "./xiaohongshu.css";
 
-const fallbackAccount = { id: "annie-default", displayName: "安妮", handle: "@kiki89699", avatarUrl: "/annie-avatar.jpg" };
+const fallbackAccount = { id: "zis-default", displayName: "zis 紫苏", handle: "@zis", avatarUrl: "/zis-avatar.jpg" };
 const fallbackBackgrounds = [
   { id: "city-1", name: "香港海边", tags: "香港 城市 海边 蓝天", src: "/backgrounds/city-1.jpg" },
   { id: "city-2", name: "城市天际线", tags: "香港 城市 天际线 日落", src: "/backgrounds/city-2.jpg" },

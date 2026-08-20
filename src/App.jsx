@@ -10,7 +10,7 @@ import { AccountManagerModal } from "./AccountManagerModal.jsx";
 import { BackgroundManagerModal } from "./BackgroundManagerModal.jsx";
 
 const fallbackAccount = {
-  id: "annie-default", displayName: "安妮", handle: "@kiki89699", avatarUrl: "/annie-avatar.jpg",
+  id: "zis-default", displayName: "zis 紫苏", handle: "@zis", avatarUrl: "/zis-avatar.jpg",
   exclusiveContentCount: 0, contentCount: baseContentSources.length,
 };
 const fallbackContentSources = baseContentSources.map((source) => ({ ...source, ownerAccountId: null, ownerDisplayName: null, scope: "public" }));
@@ -107,7 +107,7 @@ function buildPublishCopy(text) {
   if (/(成长|学习|执行|行动|拖延)/.test(clean)) add("#个人成长");
   if (tags.length === 0) add("#认知");
   if (tags.length === 1) add("#个人成长");
-  return `${sentence} ${tags.join(" ")} #七月安妮`;
+  return `${sentence} ${tags.join(" ")} #zis紫苏`;
 }
 
 function blobToDataUrl(blob) {
@@ -164,7 +164,7 @@ function TweetCard({ cardRef, text, fontSize, cardTheme, avatar, displayName, ac
   const timeLabel = `${postDate.getHours() < 12 ? "上午" : "下午"}${postDate.getHours() % 12 || 12}:${String(postDate.getMinutes()).padStart(2, "0")}`;
   return <article className={`tweet-card theme-${cardTheme} card-${orientation} ${poster ? "poster-tweet-card" : ""}`} ref={cardRef} aria-label="zis图文内容卡片预览">
     <header className="tweet-header">
-      <img className="tweet-avatar annie-avatar" src={avatar} alt={`${displayName}头像`} />
+      <img className="tweet-avatar zis-avatar" src={avatar} alt={`${displayName}头像`} />
       <div className="tweet-identity"><div className="tweet-name-line"><strong>{displayName}</strong><SealCheck weight="fill" className="verified-icon" /></div><div className="tweet-account-line">{account} · {postDate.getMonth() + 1}月{postDate.getDate()}日</div></div>
       <div className="tweet-actions-top" aria-hidden="true"><b>𝕏</b><DotsThree size={25} weight="bold" /></div>
     </header>
@@ -260,13 +260,13 @@ export function App() {
       if (!nextAccounts.length) throw new Error("empty accounts");
       setAccounts(nextAccounts);
       setSharedContentCount(Number(payload.sharedContentCount || 0));
-      const storedId = window.localStorage.getItem("annie-active-account");
+      const storedId = window.localStorage.getItem("zis-active-account");
       const requestedId = preferredId || storedId || (deletedId === activeAccountId ? null : activeAccountId);
       const nextAccount = nextAccounts.find((item) => item.id === requestedId)
         || nextAccounts.find((item) => item.id === storedId)
         || nextAccounts[0];
       setActiveAccountId(nextAccount.id);
-      window.localStorage.setItem("annie-active-account", nextAccount.id);
+      window.localStorage.setItem("zis-active-account", nextAccount.id);
       return nextAccount;
     } catch {
       setAccounts([fallbackAccount]);
@@ -320,17 +320,17 @@ export function App() {
     }
     setContentSources(nextSources);
     setSourceCategory("全部");
-    const rememberedId = preferredSourceId || window.localStorage.getItem(`annie-last-source:${accountId}`);
+    const rememberedId = preferredSourceId || window.localStorage.getItem(`zis-last-source:${accountId}`);
     const nextSource = nextSources.find((item) => item.id === rememberedId) || nextSources[0];
     setSelectedSourceId(nextSource?.id || "");
     setSourceDraft(createSourceDraft(nextSource));
-    if (nextSource) window.localStorage.setItem(`annie-last-source:${accountId}`, nextSource.id);
+    if (nextSource) window.localStorage.setItem(`zis-last-source:${accountId}`, nextSource.id);
     return nextSources;
   }
 
   async function switchAccountIdentity(nextAccount) {
     setActiveAccountId(nextAccount.id);
-    window.localStorage.setItem("annie-active-account", nextAccount.id);
+    window.localStorage.setItem("zis-active-account", nextAccount.id);
     randomizePostData();
     randomizeBackground();
     await refreshContent(nextAccount.id);
@@ -348,7 +348,7 @@ export function App() {
     if (!source) return;
     setSelectedSourceId(source.id);
     setSourceDraft(createSourceDraft(source));
-    window.localStorage.setItem(`annie-last-source:${activeAccountId}`, source.id);
+    window.localStorage.setItem(`zis-last-source:${activeAccountId}`, source.id);
     randomizePostData();
     randomizeBackground();
   }
@@ -486,16 +486,16 @@ export function App() {
     <header className="topbar"><div className="brand-mark">ZIS</div><div><p className="eyebrow">CONTENT CARD</p><h1>zis图文内容卡片生成器</h1></div><button className="topbar-account" onClick={() => setAccountModalOpen(true)}><img src={activeAccount.avatarUrl} alt="" /><span><strong>{activeAccount.displayName}</strong><small>{activeAccount.handle}</small></span><CaretDown weight="bold" /></button></header>
     <div className="app-grid">
       <aside className="control-panel">
-        <section className="panel-section mode-section"><div className="section-heading"><span className="step-number">01</span><div><h2>选择内容来源</h2><p>从安妮公众号精简内容或自由编辑开始</p></div></div><div className="segmented-control two"><button className={mode === "sources" ? "active" : ""} onClick={() => switchMode("sources")}>安妮素材库</button><button className={mode === "draft" ? "active" : ""} onClick={() => switchMode("draft")}>自由编辑</button></div></section>
+        <section className="panel-section mode-section"><div className="section-heading"><span className="step-number">01</span><div><h2>选择内容来源</h2><p>从zis 紫苏公众号精简内容或自由编辑开始</p></div></div><div className="segmented-control two"><button className={mode === "sources" ? "active" : ""} onClick={() => switchMode("sources")}>zis 紫苏素材库</button><button className={mode === "draft" ? "active" : ""} onClick={() => switchMode("draft")}>自由编辑</button></div></section>
         {mode === "sources" && <section className="panel-section source-library-section">
           <div className="section-heading compact"><span className="step-number">02</span><div><h2>{contentSources.length.toLocaleString("zh-CN")} 条中文成品素材</h2><p>当前筛选 {sourceResults.length} 条，选一个就能生成</p></div></div>
           <div className="search-row"><label className="search-box"><MagnifyingGlass /><input value={sourceQuery} onChange={(event) => setSourceQuery(event.target.value)} placeholder="搜：选择、关系、自由、写作、做自己" /></label><button className="icon-button" onClick={pickRandomSource} title="从当前结果随机一条" aria-label="随机一条素材"><Shuffle /></button></div>
           <div className="category-pills">{sourceCategories.map((category) => <button key={category} className={sourceCategory === category ? "active" : ""} onClick={() => setSourceCategory(category)}>{category}</button>)}</div>
           <div className="source-list">{visibleSourceResults.map((source) => <article key={source.id} className={`source-item ${source.id === selectedSource?.id ? "selected" : ""}`}><button className="source-main" onClick={() => selectSource(source)}><span className="source-meta"><b>{source.category}</b><em>{source.productFit.join(" · ")}</em></span><strong>{source.title}</strong><p>{source.insight}</p></button><span className="source-origin"><i className={source.scope === "public" ? "scope-public" : "scope-account"}>{source.scope === "public" ? "公共" : source.ownerDisplayName || activeAccount.displayName}</i>{source.sourceName}</span></article>)}</div>
-          <p className="source-note"><ShieldCheck weight="fill" /> 素材来自安妮公众号原文的精简整理。发布前请复核当前观点、数据、个人经历和收益表述。</p>
+          <p className="source-note"><ShieldCheck weight="fill" /> 素材来自zis 紫苏公众号原文的精简整理。发布前请复核当前观点、数据、个人经历和收益表述。</p>
         </section>}
         {mode === "sources" && <section className="panel-section editor-section"><div className="section-heading compact"><span className="step-number">03</span><div><h2>调整生成内容</h2><p>保留事实，改成你自己真实说话的方式</p></div></div><textarea value={sourceDraft} onChange={(event) => setSourceDraft(event.target.value)} rows={10} /><div className="editor-actions"><span>{sourceDraft.length} 字</span><button className="secondary-button" onClick={() => setSourceDraft(createSourceDraft(selectedSource))}><Sparkle weight="fill" /> 重新生成</button></div></section>}
-        {mode === "draft" && <section className="panel-section editor-section"><div className="section-heading compact"><span className="step-number">02</span><div><h2>自由编辑内容</h2><p>粘贴或直接写一条自己的内容</p></div></div><textarea value={draft} onChange={(event) => setDraft(event.target.value)} rows={12} /><div className="editor-actions"><span>{draft.length} 字</span><button className="secondary-button" onClick={() => setDraft(sourceDraft)}><Sparkle weight="fill" /> 载入当前素材</button></div><p className="rewrite-note">发布前检查事实、数据、个人经历和收益表述，确保符合安妮当前观点。</p></section>}
+        {mode === "draft" && <section className="panel-section editor-section"><div className="section-heading compact"><span className="step-number">02</span><div><h2>自由编辑内容</h2><p>粘贴或直接写一条自己的内容</p></div></div><textarea value={draft} onChange={(event) => setDraft(event.target.value)} rows={12} /><div className="editor-actions"><span>{draft.length} 字</span><button className="secondary-button" onClick={() => setDraft(sourceDraft)}><Sparkle weight="fill" /> 载入当前素材</button></div><p className="rewrite-note">发布前检查事实、数据、个人经历和收益表述，确保符合zis 紫苏当前观点。</p></section>}
         <section className="panel-section output-section"><div className="section-heading compact"><span className="step-number">{outputStep}</span><div><h2>选择发布样式</h2><p>背景始终为抖音竖图，只调整推文卡片</p></div></div><div className="output-picker"><button className={outputMode === "poster" ? "active" : ""} onClick={() => setOutputMode("poster")}><ImageSquare weight="fill" /><strong>背景图成品</strong><span>固定竖版 3:4 背景</span></button><button className={outputMode === "card" ? "active" : ""} onClick={() => setOutputMode("card")}><BookmarkSimple weight="fill" /><strong>纯推文卡片</strong><span>没有额外背景</span></button></div><div className="orientation-control"><span>推文卡片版式</span><div className="orientation-picker" role="group" aria-label="选择推文卡片版式"><button type="button" className={orientation === "portrait" ? "active" : ""} onClick={() => setOrientation("portrait")}><i className="orientation-icon portrait" />竖版卡片</button><button type="button" className={orientation === "landscape" ? "active" : ""} onClick={() => setOrientation("landscape")}><i className="orientation-icon landscape" />横版卡片</button></div><small>系统会根据内容长度自动调整字号和卡片高度，背景画布不会改变。</small></div><button className="random-data-button" type="button" onClick={randomizePostData}><Shuffle weight="bold" /><span><strong>换日期和互动数据</strong><small>日期、查看、回复、转发、点赞与收藏会成套更新</small></span></button></section>
         {outputMode === "poster" && <section className="panel-section background-section">
           <div className="background-heading-row"><div className="section-heading compact"><span className="step-number">{backgroundStep}</span><div><h2>选择背景</h2><p>云端图库、本地上传、网络图片都能用</p></div></div><button className="edit-background-button" type="button" onClick={() => setBackgroundManagerOpen(true)}><PencilSimple />编辑背景</button></div>

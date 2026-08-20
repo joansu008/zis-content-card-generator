@@ -28,9 +28,9 @@ test("spreadsheet parser accepts Chinese headers and reports missing and duplica
     { 分类: "成长", 封面标题: "标题一", 笔记正文: "正文一", "关键词/话题": "成长、行动" },
     { 分类: "成长", 封面标题: "标题一", 笔记正文: "正文二" },
     { 分类: "成长", 封面标题: "缺正文" },
-  ], "annie-default");
+  ], "zis-default");
   assert.equal(result.items.length, 1);
-  assert.equal(result.items[0].ownerAccountId, "annie-default");
+  assert.equal(result.items[0].ownerAccountId, "zis-default");
   assert.deepEqual(result.items[0].keywords, ["成长", "行动"]);
   assert.equal(result.errors.length, 2);
   assert.match(result.errors[0], /重复/);
