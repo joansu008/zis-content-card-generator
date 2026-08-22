@@ -55,7 +55,7 @@ for (const [index, card] of cards.entries()) {
 }
 
 const ordered = [...cards].sort((a, b) => a.id.localeCompare(b.id));
-writeFileSync(path.join(root, "src", "annie-content-sources.json"), `${JSON.stringify(ordered, null, 2)}\n`);
+writeFileSync(path.join(root, "src", "zis-content-sources.json"), `${JSON.stringify(ordered, null, 2)}\n`);
 const publicBatch = ordered.map(({ ownerAccountId: _ownerAccountId, ...card }) => card);
 writeFileSync(
   path.join(root, "src", "content-sources.json"),
@@ -79,9 +79,9 @@ VALUES (
   ${sqlString(createdAt)}, ${sqlString(createdAt)}
 );`);
 
-const migration = `-- Public editorial batch from the user-provided Annie WeChat archive.\n-- These cards are shared by every account.\n${statements.join("\n--> statement-breakpoint\n")}\n`;
+const migration = `-- Public editorial batch from the user-provided ZIS WeChat archive.\n-- These cards are shared by every account.\n${statements.join("\n--> statement-breakpoint\n")}\n`;
 writeFileSync(path.join(root, "drizzle", "0005_public_content_batch.sql"), migration);
 
 const verificationCount = ordered.filter((item) => item.requiresVerification).length;
 const sourceCount = new Set(ordered.map((item) => item.sourceArticle)).size;
-console.log(`Built ${ordered.length} public cards from ${sourceCount} Annie source articles (${verificationCount} require verification).`);
+console.log(`Built ${ordered.length} public cards from ${sourceCount} ZIS source articles (${verificationCount} require verification).`);

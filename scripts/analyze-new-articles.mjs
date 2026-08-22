@@ -84,7 +84,7 @@ function cleanMarkdown(raw) {
 function extractTitle(raw, filename) {
   const heading = raw.match(/^#\s+(.+)$/m)?.[1]?.trim();
   const fallback = filename.replace(/^\[[^\]]+\]/, "").replace(/\.md$/i, "");
-  if (heading && !/^(七月安妮|安妮园长)/i.test(heading)) return heading.replace(/\s+/g, " ");
+  if (heading && !/^(zis 紫苏|紫苏园长)/i.test(heading)) return heading.replace(/\s+/g, " ");
   return fallback;
 }
 
@@ -168,7 +168,7 @@ const categoryCounts = Object.fromEntries(
 
 const report = {
   generatedAt: new Date().toISOString(),
-  sourceArchive: "新增内容/安妮公众号文章MD文件0822.7z",
+  sourceArchive: "新增内容/zis 紫苏公众号文章MD文件0822.7z",
   totalMarkdownFiles: articles.length,
   decisionCounts,
   categoryCounts,

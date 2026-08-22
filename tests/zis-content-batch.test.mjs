@@ -4,9 +4,9 @@ import test from "node:test";
 
 const readJson = async (relativePath) => JSON.parse(await readFile(new URL(relativePath, import.meta.url), "utf8"));
 
-test("Annie editorial batch is public, complete, and merged into shared content", async () => {
+test("ZIS editorial batch is public, complete, and merged into shared content", async () => {
   const [cards, publicCards] = await Promise.all([
-    readJson("../src/annie-content-sources.json"),
+    readJson("../src/zis-content-sources.json"),
     readJson("../src/content-sources.json"),
   ]);
 
@@ -28,5 +28,5 @@ test("Annie editorial batch is public, complete, and merged into shared content"
 test("public content migration inserts every reviewed card without an account owner", async () => {
   const migration = await readFile(new URL("../drizzle/0005_public_content_batch.sql", import.meta.url), "utf8");
   assert.equal((migration.match(/INSERT OR IGNORE INTO contents/g) || []).length, 35);
-  assert.equal((migration.match(/VALUES \(\s*'annie-\d{4}', NULL,/g) || []).length, 35);
+  assert.equal((migration.match(/VALUES \(\s*'zis-\d{4}', NULL,/g) || []).length, 35);
 });
