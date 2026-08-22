@@ -5,3 +5,8 @@ dist/
 *.log
 qa-render.png
 reference-target.png
+
+# User-provided long-form source archive and local extraction artifacts.
+新增内容/*.7z
+新增内容/已解压/
+新增内容/筛选结果/article-inventory.json

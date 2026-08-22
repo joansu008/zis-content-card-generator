@@ -10,6 +10,7 @@
     "assets:build": "node scripts/build-generated-backgrounds.mjs",
     "db:generate": "drizzle-kit generate",
     "db:seed": "node scripts/build-content-seed.mjs",
+    "content:annie": "node scripts/build-annie-content-batch.mjs",
     "build": "npm run assets:build && vite build && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "test:sites": "node --test tests/*.test.mjs"
